@@ -57,7 +57,7 @@ class TMail(BaseModel):
 
 
 class TClient(BaseModel):
-    id = models.IntegerField(primary_key=True, editable=False, blank=True)
+    id = models.CharField(primary_key=True, max_length=30, editable=False, blank=True)
     phone_number = models.CharField(max_length=15, unique=True)
     surname = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50)
@@ -77,12 +77,12 @@ class TClient(BaseModel):
 
     def save(self, *args, **kwargs):
         if not TClient.objects.count():
-            self.id = 101
+            self.id = '101'
         else:
             last_client_id = TClient.objects.aggregate(
                 id_max=models.Max('id')
             )['id_max']
-            id = int(str(int(str(last_client_id)[:-2]) + 1) + '01')
+            id = str(int(last_client_id[:-2]) + 1) + '01'
             self.id = id
         super().save(*args, **kwargs)
 
