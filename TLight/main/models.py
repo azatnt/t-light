@@ -85,6 +85,7 @@ class TClient(BaseModel):
             id = str(int(last_client_id[:-2]) + 1) + '01'
             self.id = id
         super().save(*args, **kwargs)
+        self.refresh_from_db()
 
     def __str__(self):
         return str(self.id) + ' - ' + self.surname + ' ' + self.first_name + ' ' + self.middle_name
